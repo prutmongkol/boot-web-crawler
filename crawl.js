@@ -26,28 +26,32 @@ function getURLsFromHTML(htmlBody, baseURL) {
     return urls;
 }
 
-async function crawlPage(currentURL) {
-    console.log(`Crawling ${currentURL}`);
-
-    let response;
+async function fetchPage(url) {
+    let res;
     try {
-        response = await fetch(currentURL);
+        res = await fetch(url);
     } catch (error) {
         console.log(error.message);
     }
 
-    if (response.status >= 400) {
-        console.log(`HTTP error: ${response.status} ${response.statusText}`);
+    if (res.status >= 400) {
+        console.log(`HTTP error: ${res.status} ${res.statusText}`);
         return;
     }
 
-    const contentType = response.headers.get("Content-Type");
+    const contentType = res.headers.get("Content-Type");
     if (!contentType || !contentType.includes("text/html")) {
         console.log(`Invalid content type: ${contentType}`);
         return;
     }
 
-    console.log(await response.text());
+    return await res.text();
+}
+
+async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
+    console.log(`Crawling ${currentURL}`);
+
+    console.log(await fetchPage(currentURL));
 }
 
 export { normalizeURL, getURLsFromHTML, crawlPage };
