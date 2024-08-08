@@ -4,7 +4,7 @@ import { crawlPage } from "./crawl.js";
 async function main() {
     if (argv.length < 3) {
         console.log("Need a url argument.\nUsage: node main.js <baseURL>");
-        return;        
+        return;
     }
     if (argv.length > 3) {
         console.log("Too many arguments\nUsage: node main.js <baseURL>");
@@ -12,10 +12,10 @@ async function main() {
     }
 
     const baseURL = argv[2];
-    
-    console.log(`Crawler is starting at the following base URL: ${baseURL}`);    
-    
-    await crawlPage(baseURL);
+
+    console.log(`Crawler is starting at the following base URL: ${baseURL}`);
+
+    console.log(await crawlPage(baseURL));
 }
 
-main()
+main();
